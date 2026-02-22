@@ -1,15 +1,37 @@
-import { Text, View } from "react-native";
+import React, { useEffect, useState } from 'react';
+
+import { tokenStorage } from '../infrastructure/tokenStorage';
+
+// Import screens
+import OnboardingScreen from '../presentation/screens/OnboardingScreen';
+import LoginScreen from '../presentation/screens/LoginScreen';
 
 export default function Index() {
-  return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <Text>Edit app/index.tsx to edit this screen.</Text>
-    </View>
-  );
+  const [isLoading, setIsLoading] = useState(true);
+  const [showOnboarding, setShowOnboarding] = useState(false);
+
+  useEffect(() => {
+    async function checkOnboarding() {
+      const onboardingDone = await tokenStorage.isOnboardingDone();
+      console.log('Onboarding done:', onboardingDone);
+      setShowOnboarding(!onboardingDone);
+      
+      // Simula o tempo da splash screen
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 3000);
+    }
+
+    checkOnboarding();
+  }, []);
+
+  console.log('Current state - isLoading:', isLoading, 'showOnboarding:', showOnboarding);
+
+  // Mostra onboarding se não foi completado
+  if (showOnboarding) {
+    return <OnboardingScreen />;
+  }
+
+  // Mostra tela de login após onboarding
+  return <LoginScreen />;
 }
