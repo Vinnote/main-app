@@ -1,7 +1,19 @@
 import { tokenStorage } from './tokenStorage';
 import { LoginDto, RegisterDto, AuthResponseDto, UserDto } from '../app/types/auth';
+import { Tasting } from '../app/types';
 
 export type { LoginDto, RegisterDto, AuthResponseDto, UserDto };
+
+export interface FeedQuery {
+  cursor?: string;
+  limit?: number;
+}
+
+export interface FeedResponseDto {
+  tastings: Tasting[];
+  nextCursor?: string;
+  hasMore: boolean;
+}
 
 const BASE_URL = 'https://vinnote-api.up.railway.app/api/v1';
 
@@ -40,7 +52,6 @@ async function request<T>(
     try {
       body = await res.json();
     } catch {
-      // ignore
     }
     throw new ApiError(
       res.status,
@@ -87,5 +98,19 @@ export const authApi = {
 
   async getMe(): Promise<UserDto> {
     return request<UserDto>('/users/me');
+  },
+};
+
+export const feedApi = {
+  async getAllFeed(query: FeedQuery = {}): Promise<FeedResponseDto> {
+    const params = new URLSearchParams();
+
+    if (query.cursor) params.append('cursor', query.cursor);
+    if (query.limit !== undefined) params.append('limit', String(query.limit));
+
+    const suffix = params.toString();
+    const path = suffix ? `/feed?${suffix}` : '/feed';
+
+    return request<FeedResponseDto>(path);
   },
 };
