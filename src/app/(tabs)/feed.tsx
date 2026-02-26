@@ -8,6 +8,9 @@ import { TastingCard } from '@/components/TastingCard';
 
 import { useFeed, TastingWithInteractions } from '@/src/app/hooks/useFeed';
 import { mockTastings } from '@/src/app/mocks/feedMocks';
+import { HStack } from '@/components/ui/hstack';
+import { Pressable } from '@/components/ui/pressable';
+import { Wine, Bell, User } from 'lucide-react-native';
 
 export default function TastingFeedScreen() {
   const { tastings, refreshing, handleLike, handleBookmark, onRefresh } = useFeed({
@@ -24,9 +27,22 @@ export default function TastingFeedScreen() {
   return (
     <SafeAreaView className="flex-1 bg-white" edges={['top']}>
       <Box className="px-4 py-3 border-b border-gray-100">
-        <Heading size="xl" className="text-gray-900">
-          Tastings
-        </Heading>
+        <HStack className="items-center justify-between">
+          <HStack space="sm" className="items-center">
+            <Wine size={24} color="#760732" />
+            <Heading size="xl" className="text-red-900">
+              Degustações
+            </Heading>
+          </HStack>
+          <HStack space="md" className="items-center">
+            <Pressable onPress={() => {}} className="p-1">
+              <Bell size={22} color="#760732" />
+            </Pressable>
+            <Pressable onPress={() => {}} className="p-1">
+              <User size={22} color="#760732" />
+            </Pressable>
+          </HStack>
+        </HStack>
       </Box>
 
       <FlatList

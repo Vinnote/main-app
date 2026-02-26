@@ -53,7 +53,7 @@ export const TastingCard: React.FC<TastingCardProps> = ({ tasting, onLike, onBoo
 
   return (
     <Box className="bg-white border-b border-gray-100">
-      <HStack className="p-4 items-center justify-between">
+      <HStack className="p-5 items-center justify-between">
         <HStack space="sm" className="items-center flex-1">
           <Image
             source={{ uri: user?.profileImageUrl || 'https://i.pravatar.cc/150' }}
@@ -79,7 +79,7 @@ export const TastingCard: React.FC<TastingCardProps> = ({ tasting, onLike, onBoo
         </Pressable>
       </HStack>
       {wine && (
-        <Box className="px-4 pb-2">
+        <Box className="px-5 pb-3">
           <Text className="text-2xl font-bold text-gray-900 mb-1">
             {wine.name} {wine.vintage ? `${wine.vintage}` : ''}
           </Text>
@@ -90,7 +90,7 @@ export const TastingCard: React.FC<TastingCardProps> = ({ tasting, onLike, onBoo
       )}
 
       {tasting.comment && (
-        <Box className="px-4 pb-3">
+        <Box className="px-5 pb-4">
           <Text className="text-gray-900 leading-5" size="sm">
             {tasting.comment}
           </Text>
@@ -98,7 +98,7 @@ export const TastingCard: React.FC<TastingCardProps> = ({ tasting, onLike, onBoo
       )}
 
       {wine?.imageUrl && (
-        <Box className="mx-4 mb-3 rounded-2xl overflow-hidden bg-black">
+        <Box className="mx-5 mb-4 rounded-2xl overflow-hidden bg-black">
           <Image
             source={{ uri: wine.imageUrl }}
             className="w-full"
@@ -110,14 +110,14 @@ export const TastingCard: React.FC<TastingCardProps> = ({ tasting, onLike, onBoo
       )}
 
       {tasting.pairings && (
-        <Box className="px-4 pb-3">
+        <Box className="px-5 pb-4">
           <Text className="text-gray-500" size="xs">
             Pairs with: {tasting.pairings}
           </Text>
         </Box>
       )}
 
-      <HStack className="px-4 pb-4 justify-between items-center">
+      <HStack className="px-5 pb-5 justify-between items-center">
         <HStack space="lg">
           <Pressable onPress={() => onLike(tasting.id)}>
             <HStack space="xs" className="items-center">
