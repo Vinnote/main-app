@@ -3,8 +3,8 @@ import React, { useEffect, useState } from 'react';
 import { tokenStorage } from '../infrastructure/tokenStorage';
 
 // Import screens
-import OnboardingScreen from '../presentation/screens/OnboardingScreen';
-import LoginScreen from '../presentation/screens/LoginScreen';
+import OnboardingScreen from './(tabs)/OnboardingScreen';
+import LoginScreen from './(tabs)/LoginScreen';
 
 export default function Index() {
   const [isLoading, setIsLoading] = useState(true);

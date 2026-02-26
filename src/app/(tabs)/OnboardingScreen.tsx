@@ -1,6 +1,11 @@
 import { tokenStorage } from "../../infrastructure/tokenStorage";
-import { ImageBackground, Pressable, Text, View, StatusBar } from "react-native";
+import { ImageBackground, StatusBar } from "react-native";
 import { router } from "expo-router";
+import { Box } from "@/components/ui/box";
+import { VStack } from "@/components/ui/vstack";
+import { Text } from "@/components/ui/text";
+import { Heading } from "@/components/ui/heading";
+import { Button, ButtonText } from "@/components/ui/button";
 
 export default function OnboardingScreen() {
   const handleCreateAccount = async () => {
@@ -18,50 +23,52 @@ export default function OnboardingScreen() {
   return (
     <>
       <StatusBar barStyle="light-content" />
-      <View className="flex-1">
+      <Box className="flex-1">
         <ImageBackground
           source={require("../../../assets/images/wine-share.png")}
           className="flex-1"
           resizeMode="cover"
         >
           {/* Overlay escuro para melhor legibilidade */}
-          <View className="flex-1 bg-black/50">
+          <Box className="flex-1 bg-black/50">
             {/* Conteúdo centralizado */}
-            <View className="flex-1 justify-center items-center px-6">
+            <Box className="flex-1 justify-center items-center px-6">
               {/* Logo e tagline */}
-              <View className="items-center mb-auto mt-32">
-                <Text className="text-white text-4xl font-bold tracking-widest mb-4">
+              <VStack className="items-center mb-auto mt-32">
+                <Heading size="4xl" className="text-white tracking-widest mb-4">
                   VINNOTE
-                </Text>
-                <Text className="text-white text-base font-light text-center">
+                </Heading>
+                <Text size="md" className="text-white font-light text-center">
                   Eleve sua degustação a outro nível.
                 </Text>
-              </View>
+              </VStack>
 
               {/* Botões na parte inferior */}
-              <View className="w-full mb-24 gap-4">
-                <Pressable
+              <VStack className="w-full mb-24 gap-4">
+                <Button
                   onPress={handleCreateAccount}
                   className="bg-white rounded-full py-4 px-8"
+                  size="xl"
                 >
-                  <Text className="text-gray-900 text-center text-base font-semibold">
+                  <ButtonText className="text-gray-900 text-base font-semibold">
                     Criar minha conta
-                  </Text>
-                </Pressable>
+                  </ButtonText>
+                </Button>
 
-                <Pressable
+                <Button
                   onPress={handleLogin}
                   className="bg-red-800 rounded-full py-4 px-8"
+                  size="xl"
                 >
-                  <Text className="text-white text-center text-base font-semibold">
+                  <ButtonText className="text-white text-base font-semibold">
                     Entrar
-                  </Text>
-                </Pressable>
-              </View>
-            </View>
-          </View>
+                  </ButtonText>
+                </Button>
+              </VStack>
+            </Box>
+          </Box>
         </ImageBackground>
-      </View>
+      </Box>
     </>
   );
 }
