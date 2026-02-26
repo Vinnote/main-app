@@ -1,5 +1,7 @@
 import { useState } from "react";
 import {
+    ActivityIndicator,
+    Alert,
     KeyboardAvoidingView,
     Platform,
     ScrollView,
@@ -17,16 +19,28 @@ import { Checkbox, CheckboxIndicator, CheckboxIcon, CheckboxLabel } from "@/comp
 import { Pressable } from "@/components/ui/pressable";
 import { Image } from "@/components/ui/image";
 import { CheckIcon } from "lucide-react-native";
+import { useAuth } from "@/src/app/hooks/useAuth";
 
 export default function LoginScreen() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [rememberMe, setRememberMe] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
+    const { login, isLoading, error, clearError } = useAuth();
 
-    const handleLogin = () => {
-        console.log("Login", { email, password, rememberMe });
-        router.replace("/(tabs)/feed");
+    const handleLogin = async () => {
+        if (!email.trim() || !password.trim()) {
+            Alert.alert("Erro", "Preencha o e-mail e a senha.");
+            return;
+        }
+
+        const result = await login(email.trim(), password);
+
+        if (result.success) {
+            router.replace("/(tabs)/feed");
+        } else {
+            Alert.alert("Erro ao entrar", result.message);
+        }
     };
 
     const handleGoogleLogin = () => {
@@ -153,11 +167,25 @@ export default function LoginScreen() {
                             onPress={handleLogin}
                             className="bg-red-800 rounded-full py-4 mb-6 active:opacity-80"
                             size="xl"
+                            disabled={isLoading}
                         >
-                            <ButtonText className="text-white text-base font-semibold">
-                                Entrar
-                            </ButtonText>
+                            {isLoading ? (
+                                <ActivityIndicator color="#FFFFFF" />
+                            ) : (
+                                <ButtonText className="text-white text-base font-semibold">
+                                    Entrar
+                                </ButtonText>
+                            )}
                         </Button>
+
+                        {/* Error message */}
+                        {error ? (
+                            <Box className="mb-4">
+                                <Text className="text-red-600 text-center text-sm">
+                                    {error}
+                                </Text>
+                            </Box>
+                        ) : null}
 
                         {/* Divider */}
                         <HStack className="items-center mb-6">

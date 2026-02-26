@@ -1,10 +1,31 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { ActivityIndicator, TouchableOpacity } from 'react-native';
+import { useRouter } from 'expo-router';
 import { Box } from '@/components/ui/box';
 import { Heading } from '@/components/ui/heading';
 import { Text } from '@/components/ui/text';
+import { VStack } from '@/components/ui/vstack';
+import { tokenStorage } from '@/src/infrastructure/tokenStorage';
+import { UserDto } from '@/src/infrastructure/api';
 
 export default function ProfileScreen() {
+  const router = useRouter();
+  const [user, setUser] = useState<UserDto | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    tokenStorage.getUser().then((u) => {
+      setUser(u);
+      setLoading(false);
+    });
+  }, []);
+
+  const handleSignOut = async () => {
+    await tokenStorage.clearAll();
+    router.replace('/');
+  };
+
   return (
     <SafeAreaView className="flex-1 bg-white" edges={['top']}>
       <Box className="px-4 py-3 border-b border-gray-100">
@@ -12,11 +33,40 @@ export default function ProfileScreen() {
           Perfil
         </Heading>
       </Box>
-      <Box className="flex-1 justify-center items-center px-6">
-        <Text className="text-gray-400 text-center">
-          Seu perfil e configurações
-        </Text>
-      </Box>
+
+      {loading ? (
+        <Box className="flex-1 justify-center items-center">
+          <ActivityIndicator size="large" color="#7C3AED" />
+        </Box>
+      ) : (
+        <VStack className="flex-1 px-6 pt-8" space="xl">
+          <VStack space="sm">
+            <Text className="text-sm text-gray-500">Nome</Text>
+            <Text className="text-lg text-gray-900 font-semibold">
+              {user?.name ?? '—'}
+            </Text>
+          </VStack>
+
+          <VStack space="sm">
+            <Text className="text-sm text-gray-500">Email</Text>
+            <Text className="text-lg text-gray-900">
+              {user?.email ?? '—'}
+            </Text>
+          </VStack>
+
+          <Box className="flex-1" />
+
+          <TouchableOpacity
+            onPress={handleSignOut}
+            className="bg-red-500 rounded-xl py-4 mb-8 items-center"
+            activeOpacity={0.8}
+          >
+            <Text className="text-white font-semibold text-base">
+              Sair da conta
+            </Text>
+          </TouchableOpacity>
+        </VStack>
+      )}
     </SafeAreaView>
   );
 }
