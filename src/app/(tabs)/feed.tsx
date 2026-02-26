@@ -42,7 +42,7 @@ export default function TastingFeedScreen() {
           />
         }
         ItemSeparatorComponent={() => <Box className="h-2 bg-gray-50" />}
-        contentContainerStyle={{ paddingBottom: 100 }}
+        contentContainerStyle={{ paddingBottom: 16 }}
       />
     </SafeAreaView>
   );
