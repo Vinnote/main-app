@@ -126,11 +126,11 @@ export const TastingSchema = z.object({
   publishedAt: z.iso.datetime().nullable().optional(),
   createdAt: z.iso.datetime(),
   updatedAt: z.iso.datetime(),
-//   user: UserSchema.optional(),
-//   wine: WineSchema.optional(),
-//   visualAnalysis: VisualAnalysisSchema.nullable().optional(),
-//   olfactoryAnalysis: OlfactoryAnalysisSchema.nullable().optional(),
-//   gustatoryAnalysis: GustatoryAnalysisSchema.nullable().optional(),
+  user: UserSchema.optional(),
+  wine: WineSchema.optional(),
+  visualAnalysis: VisualAnalysisSchema.nullable().optional(),
+  olfactoryAnalysis: OlfactoryAnalysisSchema.nullable().optional(),
+  gustatoryAnalysis: GustatoryAnalysisSchema.nullable().optional(),
 });
 
 // Follow Schema
