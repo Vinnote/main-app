@@ -1,6 +1,6 @@
 import React from 'react';
 import { Dimensions } from 'react-native';
-import { Heart, MessageCircle, Bookmark, MoreHorizontal, BadgeCheck, Wine } from 'lucide-react-native';
+import { Heart, MessageCircle, Bookmark, MoreHorizontal, BadgeCheck, Wine, Share2 } from 'lucide-react-native';
 
 import { Box } from '@/components/ui/box';
 import { VStack } from '@/components/ui/vstack';
@@ -30,6 +30,14 @@ const formatCount = (count: number): string => {
   if (count >= 1000000) return `${(count / 1000000).toFixed(1)}M`;
   if (count >= 1000) return `${(count / 1000).toFixed(1)}K`;
   return count.toString();
+};
+
+const renderStars = (score?: number | null): string => {
+  if (!score) return '★ ★ ★ ★ ★';
+  const stars = Math.round(score / 20); 
+  const fullStars = Math.min(5, Math.max(0, stars));
+  const emptyStars = 5 - fullStars;
+  return '★'.repeat(fullStars) + (emptyStars > 0 ? ' ☆'.repeat(emptyStars) : '');
 };
 
 export interface TastingCardProps {
@@ -71,19 +79,14 @@ export const TastingCard: React.FC<TastingCardProps> = ({ tasting, onLike, onBoo
         </Pressable>
       </HStack>
       {wine && (
-        <HStack className="px-4 pb-3 items-center" space="sm">
-          <Wine size={16} color="#7C3AED" />
-          <Text className="text-purple-700 font-medium" size="sm">
-            {wine.name} {wine.vintage ? `(${wine.vintage})` : ''}
+        <Box className="px-4 pb-2">
+          <Text className="text-2xl font-bold text-gray-900 mb-1">
+            {wine.name} {wine.vintage ? `${wine.vintage}` : ''}
           </Text>
-          {tasting.score && (
-            <Box className="bg-purple-100 px-2 py-0.5 rounded-full ml-auto">
-              <Text className="text-purple-700 font-bold" size="xs">
-                {tasting.score}/100
-              </Text>
-            </Box>
-          )}
-        </HStack>
+          <Text className="text-lg text-yellow-500 font-semibold tracking-wider">
+            {renderStars(tasting.score)}
+          </Text>
+        </Box>
       )}
 
       {tasting.comment && (
@@ -95,11 +98,11 @@ export const TastingCard: React.FC<TastingCardProps> = ({ tasting, onLike, onBoo
       )}
 
       {wine?.imageUrl && (
-        <Box className="mb-3">
+        <Box className="mx-4 mb-3 rounded-2xl overflow-hidden bg-black">
           <Image
             source={{ uri: wine.imageUrl }}
             className="w-full"
-            style={{ height: screenWidth * 0.6 }}
+            size="2xl"
             alt={wine.name}
             resizeMode="cover"
           />
@@ -114,7 +117,7 @@ export const TastingCard: React.FC<TastingCardProps> = ({ tasting, onLike, onBoo
         </Box>
       )}
 
-      <HStack className="px-4 pb-4 justify-between">
+      <HStack className="px-4 pb-4 justify-between items-center">
         <HStack space="lg">
           <Pressable onPress={() => onLike(tasting.id)}>
             <HStack space="xs" className="items-center">
@@ -137,6 +140,15 @@ export const TastingCard: React.FC<TastingCardProps> = ({ tasting, onLike, onBoo
               <MessageCircle size={22} color="#6B7280" />
               <Text className="text-gray-500" size="sm">
                 {formatCount(tasting.commentCount)}
+              </Text>
+            </HStack>
+          </Pressable>
+
+          <Pressable>
+            <HStack space="xs" className="items-center">
+              <Share2 size={22} color="#6B7280" />
+              <Text className="text-gray-500" size="sm">
+                Share
               </Text>
             </HStack>
           </Pressable>
