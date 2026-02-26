@@ -5,6 +5,7 @@ import {
     ScrollView,
     StatusBar,
 } from "react-native";
+import { router } from "expo-router";
 import { Box } from "@/components/ui/box";
 import { VStack } from "@/components/ui/vstack";
 import { HStack } from "@/components/ui/hstack";
@@ -25,7 +26,7 @@ export default function LoginScreen() {
 
     const handleLogin = () => {
         console.log("Login", { email, password, rememberMe });
-        // Implementar lógica de login aqui
+        router.replace("/(tabs)/feed");
     };
 
     const handleGoogleLogin = () => {
