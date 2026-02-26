@@ -63,7 +63,7 @@ export const WineSchema = z.object({
   alcoholContent: z.number().nullable().optional(),
   averagePrice: z.number().nullable().optional(),
   status: WineStatusEnum.default('ACTIVE'),
-  imageUrl: z.string().url().nullable().optional(),
+  imageUrl: z.url().nullable().optional(),
   sensoryProfile: z.record(z.string(), z.unknown()).nullable().optional(),
   sommelierAvgScore: z.number().nullable().optional(),
   sommelierScoreCount: z.number().int().nonnegative().default(0),
