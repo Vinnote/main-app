@@ -1,3 +1,6 @@
+if (__DEV__) {
+  require("./ReactotronConfig");
+}
 import React, { useEffect, useState } from 'react';
 
 import { tokenStorage } from '../infrastructure/tokenStorage';
@@ -24,6 +27,8 @@ export default function Index() {
 
     checkOnboarding();
   }, []);
+
+
 
   console.log('Current state - isLoading:', isLoading, 'showOnboarding:', showOnboarding);
 
