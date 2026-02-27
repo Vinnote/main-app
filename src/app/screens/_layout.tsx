@@ -15,6 +15,7 @@ export default function TabsLayout() {
       <Tabs.Screen name="discover" options={{ title: 'Descobrir' }} />
       <Tabs.Screen name="profile" options={{ title: 'Perfil' }} />
       <Tabs.Screen name="LoginScreen" options={{ href: null }} />
+      <Tabs.Screen name="RegisterScreen" options={{ href: null }} />
       <Tabs.Screen name="OnboardingScreen" options={{ href: null }} />
     </Tabs>
   );

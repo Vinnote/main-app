@@ -49,8 +49,7 @@ export default function LoginScreen() {
     };
 
     const handleRegister = () => {
-        console.log("Navigate to Register");
-        // Navegar para tela de cadastro
+        router.push("/screens/RegisterScreen");
     };
 
     const handleForgotPassword = () => {
