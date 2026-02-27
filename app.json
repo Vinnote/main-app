@@ -21,7 +21,9 @@
       },
       "predictiveBackGestureEnabled": false,
       "package": "com.puccampinas.vinnote.app",
-      "versionCode": 1
+      "versionCode": 1,
+      "newArchEnabled": true,
+      "edgeToEdgeEnabled": true
     },
     "web": {
       "output": "static",
