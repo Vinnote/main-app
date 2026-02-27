@@ -7,7 +7,6 @@
     "icon": "./assets/icon.png",
     "scheme": "vinnote",
     "userInterfaceStyle": "automatic",
-    "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
       "buildNumber": "1",
@@ -20,10 +19,11 @@
         "backgroundImage": "./assets/android-icon-background.png",
         "monochromeImage": "./assets/android-icon-monochrome.png"
       },
-      "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
       "package": "com.puccampinas.vinnote.app",
-      "versionCode": 1
+      "versionCode": 1,
+      "newArchEnabled": true,
+      "edgeToEdgeEnabled": true
     },
     "web": {
       "output": "static",
@@ -35,7 +35,7 @@
         "expo-splash-screen",
         {
           "image": "./assets/splash-icon.png",
-          "imageWidth": 250,
+          "imageWidth": 100,
           "resizeMode": "contain",
           "backgroundColor": "#8B1538",
           "dark": {

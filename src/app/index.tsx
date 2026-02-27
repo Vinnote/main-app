@@ -1,10 +1,13 @@
+if (__DEV__) {
+  require("./ReactotronConfig");
+}
 import React, { useEffect, useState } from 'react';
 
 import { tokenStorage } from '../infrastructure/tokenStorage';
 
 // Import screens
-import OnboardingScreen from '../presentation/screens/OnboardingScreen';
-import LoginScreen from '../presentation/screens/LoginScreen';
+import OnboardingScreen from './screens/OnboardingScreen';
+import LoginScreen from './screens/LoginScreen';
 
 export default function Index() {
   const [isLoading, setIsLoading] = useState(true);
@@ -24,6 +27,8 @@ export default function Index() {
 
     checkOnboarding();
   }, []);
+
+
 
   console.log('Current state - isLoading:', isLoading, 'showOnboarding:', showOnboarding);
 
