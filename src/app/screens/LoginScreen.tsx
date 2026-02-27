@@ -18,7 +18,7 @@ import { Input, InputField, InputSlot } from "@/components/ui/input";
 import { Checkbox, CheckboxIndicator, CheckboxIcon, CheckboxLabel } from "@/components/ui/checkbox";
 import { Pressable } from "@/components/ui/pressable";
 import { Image } from "@/components/ui/image";
-import { CheckIcon } from "lucide-react-native";
+import { CheckIcon, Mail, Lock, Eye, EyeOff } from "lucide-react-native";
 import { useAuth } from "@/src/app/hooks/useAuth";
 
 export default function LoginScreen() {
@@ -37,7 +37,7 @@ export default function LoginScreen() {
         const result = await login(email.trim(), password);
 
         if (result.success) {
-            router.replace("/(tabs)/feed");
+            router.replace("/screens/feed");
         } else {
             Alert.alert("Erro ao entrar", result.message);
         }
@@ -91,7 +91,7 @@ export default function LoginScreen() {
                                 className="bg-gray-50 border-gray-200"
                             >
                                 <InputSlot className="pl-4">
-                                    <Text className="text-gray-400 text-xl">✉️</Text>
+                                    <Mail size={20} color="#9CA3AF" />
                                 </InputSlot>
                                 <InputField
                                     placeholder="Seu e-mail"
@@ -117,7 +117,7 @@ export default function LoginScreen() {
                                 className="bg-gray-50 border-gray-200"
                             >
                                 <InputSlot className="pl-4">
-                                    <Text className="text-gray-400 text-xl">🔒</Text>
+                                    <Lock size={20} color="#9CA3AF" />
                                 </InputSlot>
                                 <InputField
                                     placeholder="Sua senha"
@@ -131,9 +131,11 @@ export default function LoginScreen() {
                                 />
                                 <InputSlot className="pr-4">
                                     <Pressable onPress={() => setShowPassword(!showPassword)}>
-                                        <Text className="text-gray-400 text-xl">
-                                            {showPassword ? "👁️" : "👁️‍🗨️"}
-                                        </Text>
+                                        {showPassword ? (
+                                            <Eye size={20} color="#9CA3AF" />
+                                        ) : (
+                                            <EyeOff size={20} color="#9CA3AF" />
+                                        )}
                                     </Pressable>
                                 </InputSlot>
                             </Input>

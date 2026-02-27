@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { ActivityIndicator, TouchableOpacity } from 'react-native';
+import { ActivityIndicator, TouchableOpacity, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { Box } from '@/components/ui/box';
 import { Heading } from '@/components/ui/heading';
@@ -11,6 +11,7 @@ import { UserDto } from '@/src/infrastructure/api';
 
 export default function ProfileScreen() {
   const router = useRouter();
+  const insets = useSafeAreaInsets();
   const [user, setUser] = useState<UserDto | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -27,7 +28,7 @@ export default function ProfileScreen() {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-white" edges={['top']}>
+    <View style={{ flex: 1, paddingTop: insets.top, backgroundColor: '#FFFFFF' }}>
       <Box className="px-4 py-3 border-b border-gray-100">
         <Heading size="xl" className="text-gray-900">
           Perfil
@@ -67,6 +68,6 @@ export default function ProfileScreen() {
           </TouchableOpacity>
         </VStack>
       )}
-    </SafeAreaView>
+    </View>
   );
 }

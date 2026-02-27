@@ -1,6 +1,6 @@
 import React from 'react';
 import { Dimensions } from 'react-native';
-import { Heart, MessageCircle, Bookmark, MoreHorizontal, BadgeCheck, Wine, Share2 } from 'lucide-react-native';
+import { Heart, MessageCircle, Bookmark, MoreHorizontal, BadgeCheck, Wine, Share2, Star } from 'lucide-react-native';
 
 import { Box } from '@/components/ui/box';
 import { VStack } from '@/components/ui/vstack';
@@ -32,12 +32,25 @@ const formatCount = (count: number): string => {
   return count.toString();
 };
 
-const renderStars = (score?: number | null): string => {
-  if (!score) return '★ ★ ★ ★ ★';
-  const stars = Math.round(score / 20); 
-  const fullStars = Math.min(5, Math.max(0, stars));
-  const emptyStars = 5 - fullStars;
-  return '★'.repeat(fullStars) + (emptyStars > 0 ? ' ☆'.repeat(emptyStars) : '');
+const getStarData = (score?: number | null): { full: number; empty: number } => {
+  if (!score) return { full: 0, empty: 5 };
+  const stars = Math.round(score / 20);
+  const full = Math.min(5, Math.max(0, stars));
+  return { full, empty: 5 - full };
+};
+
+const RatingStars: React.FC<{ score?: number | null }> = ({ score }) => {
+  const { full, empty } = getStarData(score);
+  return (
+    <HStack space="xs" className="items-center">
+      {Array.from({ length: full }).map((_, i) => (
+        <Star key={`full-${i}`} size={16} color="#EAB308" fill="#EAB308" />
+      ))}
+      {Array.from({ length: empty }).map((_, i) => (
+        <Star key={`empty-${i}`} size={16} color="#D1D5DB" />
+      ))}
+    </HStack>
+  );
 };
 
 export interface TastingCardProps {
@@ -83,9 +96,7 @@ export const TastingCard: React.FC<TastingCardProps> = ({ tasting, onLike, onBoo
           <Text className="text-2xl font-bold text-gray-900 mb-1">
             {wine.name} {wine.vintage ? `${wine.vintage}` : ''}
           </Text>
-          <Text className="text-lg text-yellow-500 font-semibold tracking-wider">
-            {renderStars(tasting.score)}
-          </Text>
+          <RatingStars score={tasting.score} />
         </Box>
       )}
 

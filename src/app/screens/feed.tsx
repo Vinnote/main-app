@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
-import { ActivityIndicator, FlatList, RefreshControl } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { ActivityIndicator, FlatList, RefreshControl, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { Box } from '@/components/ui/box';
 import { Heading } from '@/components/ui/heading';
@@ -13,6 +13,7 @@ import { Wine, Bell, User } from 'lucide-react-native';
 import { Text } from '@/components/ui/text';
 
 export default function TastingFeedScreen() {
+  const insets = useSafeAreaInsets();
   const { tastings, isLoading, error, refreshing, handleLike, handleBookmark, loadFeed, onRefresh } = useFeed();
 
   const renderTasting = useCallback(
@@ -23,7 +24,7 @@ export default function TastingFeedScreen() {
   );
 
   return (
-    <SafeAreaView className="flex-1 bg-white" edges={['top']}>
+    <View style={{ flex: 1, paddingTop: insets.top, backgroundColor: '#FFFFFF' }}>
       <Box className="px-4 py-3 border-b border-gray-100">
         <HStack className="items-center justify-between">
           <HStack space="sm" className="items-center">
@@ -75,6 +76,6 @@ export default function TastingFeedScreen() {
         contentContainerStyle={{ paddingBottom: 16 }}
       />
       )}
-    </SafeAreaView>
+    </View>
   );
 }
