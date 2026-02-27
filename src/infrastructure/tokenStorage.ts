@@ -1,6 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const TOKEN_KEY = 'access_token';
+const REFRESH_TOKEN_KEY = 'refresh_token';
 const USER_KEY = 'user_data';
 const ONBOARDING_KEY = 'onboarding_done';
 
@@ -15,6 +16,18 @@ export const tokenStorage = {
 
     async removeToken(): Promise<void> {
         await AsyncStorage.removeItem(TOKEN_KEY);
+    },
+
+    async setRefreshToken(token: string): Promise<void> {
+        await AsyncStorage.setItem(REFRESH_TOKEN_KEY, token);
+    },
+
+    async getRefreshToken(): Promise<string | null> {
+        return await AsyncStorage.getItem(REFRESH_TOKEN_KEY);
+    },
+
+    async removeRefreshToken(): Promise<void> {
+        await AsyncStorage.removeItem(REFRESH_TOKEN_KEY);
     },
 
     async setUser(user: any): Promise<void> {
@@ -33,6 +46,7 @@ export const tokenStorage = {
     async clearAll(): Promise<void> {
         await AsyncStorage.multiRemove([
             TOKEN_KEY,
+            REFRESH_TOKEN_KEY,
             USER_KEY,
             'user_lines',
             'selected_line',

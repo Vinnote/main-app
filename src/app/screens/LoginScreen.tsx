@@ -1,5 +1,7 @@
 import { useState } from "react";
 import {
+    ActivityIndicator,
+    Alert,
     KeyboardAvoidingView,
     Platform,
     ScrollView,
@@ -16,17 +18,29 @@ import { Input, InputField, InputSlot } from "@/components/ui/input";
 import { Checkbox, CheckboxIndicator, CheckboxIcon, CheckboxLabel } from "@/components/ui/checkbox";
 import { Pressable } from "@/components/ui/pressable";
 import { Image } from "@/components/ui/image";
-import { CheckIcon } from "lucide-react-native";
+import { CheckIcon, Mail, Lock, Eye, EyeOff } from "lucide-react-native";
+import { useAuth } from "@/src/app/hooks/useAuth";
 
 export default function LoginScreen() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [rememberMe, setRememberMe] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
+    const { login, isLoading, error, clearError } = useAuth();
 
-    const handleLogin = () => {
-        console.log("Login", { email, password, rememberMe });
-        router.replace("/(tabs)/feed");
+    const handleLogin = async () => {
+        if (!email.trim() || !password.trim()) {
+            Alert.alert("Erro", "Preencha o e-mail e a senha.");
+            return;
+        }
+
+        const result = await login(email.trim(), password);
+
+        if (result.success) {
+            router.replace("/screens/feed");
+        } else {
+            Alert.alert("Erro ao entrar", result.message);
+        }
     };
 
     const handleGoogleLogin = () => {
@@ -77,7 +91,7 @@ export default function LoginScreen() {
                                 className="bg-gray-50 border-gray-200"
                             >
                                 <InputSlot className="pl-4">
-                                    <Text className="text-gray-400 text-xl">✉️</Text>
+                                    <Mail size={20} color="#9CA3AF" />
                                 </InputSlot>
                                 <InputField
                                     placeholder="Seu e-mail"
@@ -103,7 +117,7 @@ export default function LoginScreen() {
                                 className="bg-gray-50 border-gray-200"
                             >
                                 <InputSlot className="pl-4">
-                                    <Text className="text-gray-400 text-xl">🔒</Text>
+                                    <Lock size={20} color="#9CA3AF" />
                                 </InputSlot>
                                 <InputField
                                     placeholder="Sua senha"
@@ -117,9 +131,11 @@ export default function LoginScreen() {
                                 />
                                 <InputSlot className="pr-4">
                                     <Pressable onPress={() => setShowPassword(!showPassword)}>
-                                        <Text className="text-gray-400 text-xl">
-                                            {showPassword ? "👁️" : "👁️‍🗨️"}
-                                        </Text>
+                                        {showPassword ? (
+                                            <Eye size={20} color="#9CA3AF" />
+                                        ) : (
+                                            <EyeOff size={20} color="#9CA3AF" />
+                                        )}
                                     </Pressable>
                                 </InputSlot>
                             </Input>
@@ -153,11 +169,25 @@ export default function LoginScreen() {
                             onPress={handleLogin}
                             className="bg-red-800 rounded-full py-4 mb-6 active:opacity-80"
                             size="xl"
+                            disabled={isLoading}
                         >
-                            <ButtonText className="text-white text-base font-semibold">
-                                Entrar
-                            </ButtonText>
+                            {isLoading ? (
+                                <ActivityIndicator color="#FFFFFF" />
+                            ) : (
+                                <ButtonText className="text-white text-base font-semibold">
+                                    Entrar
+                                </ButtonText>
+                            )}
                         </Button>
+
+                        {/* Error message */}
+                        {error ? (
+                            <Box className="mb-4">
+                                <Text className="text-red-600 text-center text-sm">
+                                    {error}
+                                </Text>
+                            </Box>
+                        ) : null}
 
                         {/* Divider */}
                         <HStack className="items-center mb-6">
