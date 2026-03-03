@@ -35,32 +35,34 @@ export default function OnboardingScreen() {
             <Box className="flex-1 justify-center items-center px-6">
               {/* Logo e tagline */}
               <VStack className="items-center mb-auto mt-32">
-                <Heading size="4xl" className="text-white tracking-widest mb-4">
+                <Heading size="4xl" className="text-white mb-4 tracking-wider font-dm-sans-semibold">
                   VINNOTE
                 </Heading>
-                <Text size="md" className="text-white font-light text-center">
+                <Text size="md" className="text-white text-center font-outfit-light">
                   Eleve sua degustação a outro nível.
                 </Text>
               </VStack>
 
               {/* Botões na parte inferior */}
-              <VStack className="w-full mb-24 gap-4">
+              <VStack className="w-full mb-24 gap-4 items-center">
                 <Button
                   onPress={handleCreateAccount}
-                  className="bg-white rounded-full py-4 px-8"
+                  variant="solid"
                   size="xl"
+                  className="rounded-full w-[327px] h-[56px] bg-[#F2F1F5]"
                 >
-                  <ButtonText className="text-gray-900 text-base font-semibold">
+                  <ButtonText className="text-[#000000] font-outfit-semibold text-base">
                     Criar minha conta
                   </ButtonText>
                 </Button>
 
                 <Button
                   onPress={handleLogin}
-                  className="bg-red-800 rounded-full py-4 px-8"
+                  variant="solid"
                   size="xl"
+                  className="rounded-full w-[327px] h-[56px] bg-[#770733]"
                 >
-                  <ButtonText className="text-white text-base font-semibold">
+                  <ButtonText className="text-white font-outfit-semibold text-base">
                     Entrar
                   </ButtonText>
                 </Button>

@@ -28,10 +28,6 @@ export default function Index() {
     checkOnboarding();
   }, []);
 
-
-
-  console.log('Current state - isLoading:', isLoading, 'showOnboarding:', showOnboarding);
-
   // Mostra onboarding se não foi completado
   if (showOnboarding) {
     return <OnboardingScreen />;
