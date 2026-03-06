@@ -21,6 +21,7 @@ import { Pressable } from "@/components/ui/pressable";
 import { Image } from "@/components/ui/image";
 import { CheckIcon, Mail, Lock, Eye, EyeOff } from "lucide-react-native";
 import { useAuth } from "@/src/app/hooks/useAuth";
+import { tokenStorage } from "@/src/infrastructure/tokenStorage";
 
 export default function LoginScreen() {
     const insets = useSafeAreaInsets();
@@ -50,7 +51,8 @@ export default function LoginScreen() {
         // Implementar lógica de login com Google aqui
     };
 
-    const handleRegister = () => {
+    const handleRegister = async () => {
+        await tokenStorage.setOnboardingDone();
         router.push("/screens/RegisterScreen");
     };
 

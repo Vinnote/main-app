@@ -12,7 +12,7 @@ export default function OnboardingScreen() {
   const handleLogin = async () => {
     await tokenStorage.setOnboardingDone();
     // Força recarregamento para ir para a tela de login
-    router.replace("/");
+    router.replace("/screens/LoginScreen");
   };
 
   const handleRegister = async () => {
