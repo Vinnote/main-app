@@ -8,16 +8,16 @@ import { Heading } from "@/components/ui/heading";
 import { Button, ButtonText } from "@/components/ui/button";
 
 export default function OnboardingScreen() {
-  const handleCreateAccount = async () => {
-    await tokenStorage.setOnboardingDone();
-    // Força recarregamento para ir para a tela de login
-    router.replace("/");
-  };
 
   const handleLogin = async () => {
     await tokenStorage.setOnboardingDone();
     // Força recarregamento para ir para a tela de login
     router.replace("/");
+  };
+
+  const handleRegister = async () => {
+    await tokenStorage.setOnboardingDone();
+    router.push("/screens/RegisterScreen");
   };
 
   return (
@@ -46,7 +46,7 @@ export default function OnboardingScreen() {
               {/* Botões na parte inferior */}
               <VStack className="w-full mb-24 gap-4 items-center">
                 <Button
-                  onPress={handleCreateAccount}
+                  onPress={handleRegister}
                   variant="solid"
                   size="xl"
                   className="rounded-full w-[327px] h-[56px] bg-[#F2F1F5]"

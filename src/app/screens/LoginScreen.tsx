@@ -88,15 +88,15 @@ export default function LoginScreen() {
                                     E-mail
                                 </Text>
                                 <Input
-                                    variant="rounded"
+                                    variant="outline"
                                     size="xl"
-                                    className="bg-[#F2F1F5] border-gray-200 h-[48px] w-[303px]"
+                                    className="bg-[#F7F5F8] border-gray-200 h-[3.5rem] w-[21.5rem] rounded-[14px]"
                                 >
                                     <InputSlot className="pl-4">
-                                        <Mail size={20} color="#9CA3AF" />
+                                        <Mail size={20} color="#A8A1AC" />
                                     </InputSlot>
                                     <InputField
-                                        placeholder="Seu e-mail"
+                                        placeholder="exemplo@email.com"
                                         placeholderTextColor="#9CA3AF"
                                         value={email}
                                         onChangeText={setEmail}
@@ -111,21 +111,21 @@ export default function LoginScreen() {
 
                         {/* Password Input */}
                         <VStack className="mb-4 items-center">
-                            <Box className="w-[303px]">
+                            <Box className="">
                                 <Text size="sm" className="text-gray-900 font-outfit-medium mb-2">
                                     Senha
                                 </Text>
                                 <Input
-                                    variant="rounded"
+                                    variant="outline"
                                     size="xl"
-                                    className="bg-[#F2F1F5] border-gray-200 h-[48px] w-[303px]"
+                                    className="bg-[#F7F5F8] border-gray-200 h-[3.5rem] w-[21.5rem] rounded-[14px]"
                                 >
                                     <InputSlot className="pl-4">
-                                        <Lock size={20} color="#9CA3AF" />
+                                        <Lock size={20} color="#A8A1AC" />
                                     </InputSlot>
                                     <InputField
-                                        placeholder="Sua senha"
-                                        placeholderTextColor="#9CA3AF"
+                                        placeholder="senha"
+                                        placeholderTextColor="#A8A1AC"
                                         value={password}
                                         onChangeText={setPassword}
                                         secureTextEntry={!showPassword}
@@ -136,9 +136,9 @@ export default function LoginScreen() {
                                     <InputSlot className="pr-4">
                                         <Pressable onPress={() => setShowPassword(!showPassword)}>
                                             {showPassword ? (
-                                                <Eye size={20} color="#9CA3AF" />
+                                                <Eye size={20} color="#A8A1AC" />
                                             ) : (
-                                                <EyeOff size={20} color="#9CA3AF" />
+                                                <EyeOff size={20} color="#A8A1AC" />
                                             )}
                                         </Pressable>
                                     </InputSlot>
@@ -242,10 +242,10 @@ export default function LoginScreen() {
                         </Box>
 
                         {/* Footer Icon */}
-                        <Box className="items-center mt-auto mb-8">
+                        <Box className="items-center mt-auto mb-10">
                             <Image
-                                source={require("../../../assets/icon.png")}
-                                className="w-12 h-12"
+                                source={require("../../../assets/images/logo-vinnote-red.png")}
+                                className="w-8"
                                 resizeMode="contain"
                                 alt="Vinnote Logo"
                             />

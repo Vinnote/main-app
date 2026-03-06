@@ -28,7 +28,12 @@ export default function BottomTabBar({ state, descriptors, navigation }: BottomT
   const insets = useSafeAreaInsets();
 
   const visibleTabNames = ['feed', 'search', 'new', 'discover', 'profile'];
+  const currentRouteName = state.routes[state.index]?.name;
   const visibleRoutes = state.routes.filter((r) => visibleTabNames.includes(r.name));
+
+  if (!visibleTabNames.includes(currentRouteName)) {
+    return null;
+  }
 
   return (
     <View style={[styles.container, { paddingBottom: Math.max(insets.bottom, 8) }]}>
