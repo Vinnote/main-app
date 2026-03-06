@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import { ActivityIndicator, FlatList, RefreshControl, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -14,7 +14,10 @@ import { Text } from '@/components/ui/text';
 
 export default function TastingFeedScreen() {
   const insets = useSafeAreaInsets();
-  const { tastings, isLoading, error, refreshing, handleLike, handleBookmark, loadFeed, onRefresh } = useFeed();
+  const [useMockFeed, setUseMockFeed] = useState(process.env.EXPO_PUBLIC_USE_FEED_MOCKS === 'true');
+  const { tastings, isLoading, error, refreshing, handleLike, handleBookmark, loadFeed, onRefresh } = useFeed({
+    useMocks: useMockFeed,
+  });
 
   const renderTasting = useCallback(
     ({ item }: { item: TastingWithInteractions }) => (
@@ -42,6 +45,14 @@ export default function TastingFeedScreen() {
             </Pressable>
           </HStack>
         </HStack>
+        <Pressable
+          onPress={() => setUseMockFeed((current) => !current)}
+          className="mt-3 self-start px-3 py-1 rounded-full border border-gray-300"
+        >
+          <Text className="text-xs text-gray-700 font-medium">
+            Mock: {useMockFeed ? 'ON' : 'OFF'}
+          </Text>
+        </Pressable>
       </Box>
 
       {isLoading && tastings.length === 0 ? (

@@ -1,6 +1,7 @@
 import { useState, useCallback, useEffect, useRef } from 'react';
 import { Tasting, TastingSchema } from '@/src/app/types';
 import { ApiError, feedApi } from '@/src/infrastructure/api';
+import { mockTastings } from '@/src/app/mocks/feedMocks';
 
 export interface TastingWithInteractions extends Tasting {
   isLiked: boolean;
@@ -10,6 +11,7 @@ export interface TastingWithInteractions extends Tasting {
 interface UseFeedOptions {
   initialTastings?: Tasting[];
   limit?: number;
+  useMocks?: boolean;
 }
 
 interface UseFeedReturn {
@@ -32,8 +34,9 @@ const addInteractions = (tasting: Tasting): TastingWithInteractions => ({
 let lastFeedRequestAt = 0;
 const REQUEST_GUARD_MS = 1500;
 const DEFAULT_THROTTLE_COOLDOWN_MS = 15000;
+const USE_FEED_MOCKS = process.env.EXPO_PUBLIC_USE_FEED_MOCKS === 'true';
 
-export const useFeed = ({ initialTastings = [], limit = 20 }: UseFeedOptions = {}): UseFeedReturn => {
+export const useFeed = ({ initialTastings = [], limit = 20, useMocks = USE_FEED_MOCKS }: UseFeedOptions = {}): UseFeedReturn => {
   const [tastings, setTastings] = useState<TastingWithInteractions[]>(
     initialTastings.map(addInteractions)
   );
@@ -98,6 +101,11 @@ export const useFeed = ({ initialTastings = [], limit = 20 }: UseFeedOptions = {
     setError(null);
 
     try {
+      if (useMocks) {
+        setTastings(validateAndDecorate(mockTastings));
+        return;
+      }
+
       const response = await feedApi.getAllFeed({ limit });
       const feedItems = normalizeFeedItems(response);
       setTastings(validateAndDecorate(feedItems));
@@ -128,7 +136,7 @@ export const useFeed = ({ initialTastings = [], limit = 20 }: UseFeedOptions = {
       }
       inFlightRef.current = false;
     }
-  }, [initialTastings, limit, normalizeFeedItems, validateAndDecorate]);
+  }, [initialTastings, limit, normalizeFeedItems, useMocks, validateAndDecorate]);
 
   const loadFeed = useCallback(async () => {
     await fetchFeed(false);
