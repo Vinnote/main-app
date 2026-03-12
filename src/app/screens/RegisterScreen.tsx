@@ -16,7 +16,7 @@ import { Input, InputField, InputSlot } from "@/components/ui/input";
 import { Pressable } from "@/components/ui/pressable";
 import { Image } from "@/components/ui/image";
 import { User, Mail, Lock, Eye, EyeOff } from "lucide-react-native";
-import { useRegister } from "@/src/app/hooks/useRegister";
+import useRegister from "@/src/app/hooks/useRegister";
 
 export default function RegisterScreen() {
 	const insets = useSafeAreaInsets();

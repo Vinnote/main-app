@@ -3,7 +3,7 @@ import { Tasting, TastingSchema } from '@/src/app/types';
 import { ApiError, feedApi } from '@/src/infrastructure/api';
 import { mockTastings } from '@/src/app/mocks/feedMocks';
 
-export interface TastingWithInteractions extends Tasting {
+export default interface TastingWithInteractions extends Tasting {
   isLiked: boolean;
   isBookmarked: boolean;
 }

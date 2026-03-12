@@ -2,7 +2,7 @@ import { useCallback, useMemo, useState } from 'react';
 import { Alert } from 'react-native';
 import { router } from 'expo-router';
 
-import { useAuth } from '@/src/app/hooks/useAuth';
+import useAuth from '@/src/app/hooks/useAuth';
 import { RegisterForm } from '@/src/app/types/register';
 
 const initialForm: RegisterForm = {
@@ -13,7 +13,7 @@ const initialForm: RegisterForm = {
   userType: 'ENTHUSIAST',
 };
 
-export function useRegister() {
+export default function useRegister() {
   const [form, setForm] = useState<RegisterForm>(initialForm);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);

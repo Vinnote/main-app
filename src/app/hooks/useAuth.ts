@@ -8,7 +8,7 @@ interface AuthState {
   error: string | null;
 }
 
-export function useAuth() {
+export default function useAuth() {
   const [state, setState] = useState<AuthState>({
     user: null,
     isLoading: false,
