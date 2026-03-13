@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableOpacity, View, Text as RNText, StyleSheet, Platform } from 'react-native';
+import { TouchableOpacity, View, Text as RNText, StyleSheet, Platform, type ViewStyle } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Home, Search, Compass, User, Plus } from 'lucide-react-native';
 import type { BottomTabBarProps } from '@react-navigation/bottom-tabs';
@@ -29,9 +29,14 @@ export default function BottomTabBar({ state, descriptors, navigation }: BottomT
 
   const visibleTabNames = ['feed', 'search', 'new', 'discover', 'profile'];
   const currentRouteName = state.routes[state.index]?.name;
+  const currentDescriptor = state.routes[state.index]
+    ? descriptors[state.routes[state.index].key]
+    : undefined;
+  const tabBarStyle = StyleSheet.flatten(currentDescriptor?.options?.tabBarStyle);
+  const shouldHideForScreen = (tabBarStyle as ViewStyle | undefined)?.display === 'none';
   const visibleRoutes = state.routes.filter((r) => visibleTabNames.includes(r.name));
 
-  if (!visibleTabNames.includes(currentRouteName)) {
+  if (!visibleTabNames.includes(currentRouteName) || shouldHideForScreen) {
     return null;
   }
 

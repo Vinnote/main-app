@@ -14,6 +14,10 @@ export default function TabsLayout() {
     let isMounted = true;
 
     async function loadSessionState() {
+      // Avoid using stale auth state while route segments are changing.
+      if (isMounted) {
+        setHasToken(null);
+      }
       const token = await tokenStorage.getToken();
 
       if (isMounted) {
@@ -51,7 +55,7 @@ export default function TabsLayout() {
     >
       <Tabs.Screen name="feed" options={{ title: 'Início' }} />
       <Tabs.Screen name="search" options={{ title: 'Busca' }} />
-      <Tabs.Screen name="new" options={{ title: 'Novo' }} />
+      <Tabs.Screen name="new" options={{ title: 'Novo', tabBarStyle: { display: 'none' } }} />
       <Tabs.Screen name="discover" options={{ title: 'Descobrir' }} />
       <Tabs.Screen name="profile" options={{ title: 'Perfil' }} />
       <Tabs.Screen name="LoginScreen" options={{ href: null }} />
