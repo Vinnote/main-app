@@ -15,7 +15,7 @@ export function useAuth() {
     error: null,
   });
 
-  const login = useCallback(async (email: string, password: string) => {
+  const login = useCallback(async (email: string, password: string, rememberMe: boolean) => {
     setState((s) => ({ ...s, isLoading: true, error: null }));
     try {
       const authResponse = await authApi.login({ email, password });
@@ -23,6 +23,7 @@ export function useAuth() {
       // Persist tokens
       await tokenStorage.setToken(authResponse.accessToken);
       await tokenStorage.setRefreshToken(authResponse.refreshToken);
+      await tokenStorage.setRememberMe(rememberMe);
 
       // Fetch user profile
       const user = await authApi.getMe();
