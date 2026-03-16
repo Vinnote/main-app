@@ -37,9 +37,13 @@ export default function ProfileScreen() {
 
   const loadUserTastings = useCallback(async () => {
     try {
-      const response = await feedApi.getAllFeed({ limit: 100 });
+      const response = await feedApi.getTastings({ limit: 100 });
+      // Handle both array and { tastings: [] } response shapes
+      const rawTastings: any[] = Array.isArray(response)
+        ? response
+        : (response as any).tastings ?? (response as any).items ?? [];
       // Filter tastings by current user
-      const userTastings = response.tastings.filter(
+      const userTastings = rawTastings.filter(
         (tasting) => tasting.userId === user?.id
       );
       setTastings(
