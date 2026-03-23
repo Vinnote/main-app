@@ -38,7 +38,7 @@ export default function TastingFeedScreen() {
           </HStack>
           <HStack space="md" className="items-center">
             <Pressable onPress={() => {}} className="p-1">
-              <Bell size={22} color="#760732" />
+              <Bell size={22} color="rgb(118, 7, 50)" />
             </Pressable>
             <Pressable onPress={() => {}} className="p-1">
               <User size={22} color="#760732" />
