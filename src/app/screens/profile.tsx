@@ -100,12 +100,13 @@ export default function ProfileScreen() {
       <Box className="mb-4">
         <TastingCard
           tasting={item}
+          currentUserId={user?.id}
           onLike={() => {}}
           onBookmark={() => {}}
         />
       </Box>
     ),
-    []
+    [user?.id]
   );
 
   const renderEmpty = () => (

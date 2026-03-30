@@ -1,5 +1,5 @@
-import React, { useCallback, useState } from 'react';
-import { ActivityIndicator, FlatList, RefreshControl, View } from 'react-native';
+import React, { useCallback, useEffect, useState } from 'react';
+import { ActivityIndicator, Alert, FlatList, RefreshControl, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { Box } from '@/components/ui/box';
@@ -11,19 +11,64 @@ import { HStack } from '@/components/ui/hstack';
 import { Pressable } from '@/components/ui/pressable';
 import { Wine, Bell, User } from 'lucide-react-native';
 import { Text } from '@/components/ui/text';
+import { tokenStorage } from '@/src/infrastructure/tokenStorage';
 
 export default function TastingFeedScreen() {
   const insets = useSafeAreaInsets();
   const [useMockFeed, setUseMockFeed] = useState(process.env.EXPO_PUBLIC_USE_FEED_MOCKS === 'true');
+  const [currentUserId, setCurrentUserId] = useState<string | null>(null);
   const { tastings, isLoading, error, refreshing, handleLike, handleBookmark, loadFeed, onRefresh } = useFeed({
     useMocks: useMockFeed,
   });
 
+  useEffect(() => {
+    let isMounted = true;
+
+    const loadCurrentUser = async () => {
+      const userData = await tokenStorage.getUser();
+
+      if (isMounted) {
+        setCurrentUserId(userData?.id ?? null);
+      }
+    };
+
+    void loadCurrentUser();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  const handleReportPost = useCallback((tastingId: string) => {
+    Alert.alert('Report post', `Post ${tastingId} was reported.`);
+  }, []);
+
+  const handleFollowUser = useCallback((userId: string) => {
+    Alert.alert('Follow user', `You are now following user ${userId}.`);
+  }, []);
+
+  const handleEditPost = useCallback((tastingId: string) => {
+    Alert.alert('Edit post', `Open edit flow for post ${tastingId}.`);
+  }, []);
+
+  const handleDeletePost = useCallback((tastingId: string) => {
+    Alert.alert('Delete post', `Delete flow for post ${tastingId}.`);
+  }, []);
+
   const renderTasting = useCallback(
     ({ item }: { item: TastingWithInteractions }) => (
-      <TastingCard tasting={item} onLike={handleLike} onBookmark={handleBookmark} />
+      <TastingCard
+        tasting={item}
+        currentUserId={currentUserId}
+        onLike={handleLike}
+        onBookmark={handleBookmark}
+        onReportPost={handleReportPost}
+        onFollowUser={handleFollowUser}
+        onEditPost={handleEditPost}
+        onDeletePost={handleDeletePost}
+      />
     ),
-    [handleLike, handleBookmark]
+    [currentUserId, handleLike, handleBookmark, handleReportPost, handleFollowUser, handleEditPost, handleDeletePost]
   );
 
   return (
