@@ -37,7 +37,7 @@ export default function LoginScreen() {
             return;
         }
 
-        const result = await login(email.trim(), password);
+        const result = await login(email.trim(), password, rememberMe);
 
         if (result.success) {
             router.replace("/screens/feed");

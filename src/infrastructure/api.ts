@@ -113,4 +113,16 @@ export const feedApi = {
 
     return request<FeedResponseDto>(path);
   },
+
+  async getTastings(query: FeedQuery = {}): Promise<FeedResponseDto> {
+    const params = new URLSearchParams();
+
+    if (query.cursor) params.append('cursor', query.cursor);
+    if (query.limit !== undefined) params.append('limit', String(query.limit));
+
+    const suffix = params.toString();
+    const path = suffix ? `/tastings?${suffix}` : '/tastings';
+
+    return request<FeedResponseDto>(path);
+  },
 };
