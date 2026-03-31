@@ -4,6 +4,7 @@ const TOKEN_KEY = 'access_token';
 const REFRESH_TOKEN_KEY = 'refresh_token';
 const USER_KEY = 'user_data';
 const ONBOARDING_KEY = 'onboarding_done';
+const REMEMBER_ME_KEY = 'remember_me';
 
 export const tokenStorage = {
     async setToken(token: string): Promise<void> {
@@ -48,9 +49,19 @@ export const tokenStorage = {
             TOKEN_KEY,
             REFRESH_TOKEN_KEY,
             USER_KEY,
+            REMEMBER_ME_KEY,
             'user_lines',
             'selected_line',
         ]);
+    },
+
+    async setRememberMe(value: boolean): Promise<void> {
+        await AsyncStorage.setItem(REMEMBER_ME_KEY, value ? 'true' : 'false');
+    },
+
+    async getRememberMe(): Promise<boolean> {
+        const value = await AsyncStorage.getItem(REMEMBER_ME_KEY);
+        return value === 'true';
     },
 
     async setOnboardingDone(): Promise<void> {
