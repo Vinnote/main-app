@@ -28,10 +28,17 @@ export default function ProfileScreen() {
   const loadUserData = useCallback(async () => {
     try {
       const userData = await tokenStorage.getUser();
-      setUser(userData);
+      setUser(userData ?? null);
+      if (!userData) {
+        // Handle explicit "no user" state so the screen is not stuck loading
+        Alert.alert('Aviso', 'Nenhum usuário autenticado. Faça login para ver o perfil.');
+      }
     } catch (error) {
       console.error('Error loading user:', error);
       Alert.alert('Erro', 'Não foi possível carregar dados do perfil');
+    } finally {
+      setLoading(false);
+      setRefreshing(false);
     }
   }, []);
 
