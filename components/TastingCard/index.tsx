@@ -240,11 +240,13 @@ export const TastingCard: React.FC<TastingCardProps> = ({
           <Box className="bg-white rounded-t-3xl px-5 pt-3 pb-8">
             <Box className="w-10 h-1 bg-gray-300 rounded-full self-center mb-5" />
 
-            <Pressable className="py-4 border-b border-gray-100" onPress={handleReport}>
-              <Text className="text-gray-900 font-medium" size="md">
-                Report post
-              </Text>
-            </Pressable>
+            {onReportPost && (
+              <Pressable className="py-4 border-b border-gray-100" onPress={handleReport}>
+                <Text className="text-gray-900 font-medium" size="md">
+                  Report post
+                </Text>
+              </Pressable>
+            )}
 
             {!isOwner && postOwnerId && (
               <Pressable className="py-4 border-b border-gray-100" onPress={handleFollow}>
