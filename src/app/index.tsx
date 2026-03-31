@@ -6,7 +6,7 @@ import React, { useEffect, useState } from 'react';
 import { Redirect } from 'expo-router';
 
 import { tokenStorage } from '../infrastructure/tokenStorage';
-import { useAuth } from './hooks/useAuth';
+import useAuth from './hooks/useAuth';
 
 // Import screens
 import OnboardingScreen from './screens/OnboardingScreen';

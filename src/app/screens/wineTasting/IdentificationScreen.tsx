@@ -81,7 +81,7 @@ export default function IdentificationScreen({ onNext, onBack }: IdentificationS
           Identificação do Vinho
         </Heading>
         <Text className="text-gray-500 mb-6" size="md">
-          Insira as informações básicas do vinho que você está degustando.
+          Insira as informações básicas do vinho que você está degustando. Todas estas informações podem ser encontradas no rótulo da garrafa.
         </Text>
 
         {/* Tipo de vinho */}
