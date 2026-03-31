@@ -23,32 +23,39 @@ export default function Index() {
     let splashTimeout: ReturnType<typeof setTimeout> | undefined;
 
     async function checkStartup() {
-      const onboardingDone = await tokenStorage.isOnboardingDone();
+      try {
+        const onboardingDone = await tokenStorage.isOnboardingDone();
 
-      if (!onboardingDone) {
-        if (isMounted) {
-          setStartupRoute('onboarding');
-        }
-      } else {
-        const rememberMe = await tokenStorage.getRememberMe();
-
-        if (rememberMe) {
-          const sessionRestored = await restoreSession();
-
+        if (!onboardingDone) {
           if (isMounted) {
-            setStartupRoute(sessionRestored ? 'feed' : 'login');
+            setStartupRoute('onboarding');
           }
-        } else if (isMounted) {
+        } else {
+          const rememberMe = await tokenStorage.getRememberMe();
+
+          if (rememberMe) {
+            const sessionRestored = await restoreSession();
+
+            if (isMounted) {
+              setStartupRoute(sessionRestored ? 'feed' : 'login');
+            }
+          } else if (isMounted) {
+            setStartupRoute('login');
+          }
+        }
+      } catch (error) {
+        console.error('Error during startup check:', error);
+        if (isMounted) {
           setStartupRoute('login');
         }
+      } finally {
+        // Simula o tempo da splash screen
+        splashTimeout = setTimeout(() => {
+          if (isMounted) {
+            setIsLoading(false);
+          }
+        }, 3000);
       }
-      
-      // Simula o tempo da splash screen
-      splashTimeout = setTimeout(() => {
-        if (isMounted) {
-          setIsLoading(false);
-        }
-      }, 3000);
     }
 
     void checkStartup();

@@ -15,6 +15,7 @@ import { TastingCard } from '@/components/TastingCard';
 
 import { tokenStorage } from '@/src/infrastructure/tokenStorage';
 import { feedApi, UserDto } from '@/src/infrastructure/api';
+import { Tasting } from '@/src/app/types';
 import { TastingWithInteractions } from '@/src/app/hooks/useFeed';
 
 export default function ProfileScreen() {
@@ -45,10 +46,7 @@ export default function ProfileScreen() {
   const loadUserTastings = useCallback(async () => {
     try {
       const response = await feedApi.getTastings({ limit: 100 });
-      // Handle both array and { tastings: [] } response shapes
-      const rawTastings: any[] = Array.isArray(response)
-        ? response
-        : (response as any).tastings ?? (response as any).items ?? [];
+      const rawTastings: Tasting[] = response.tastings ?? [];
       // Filter tastings by current user
       const userTastings = rawTastings.filter(
         (tasting) => tasting.userId === user?.id
@@ -102,18 +100,34 @@ export default function ProfileScreen() {
     ]);
   };
 
+  const handleToggleLike = useCallback((tastingId: string) => {
+    setTastings((prev) =>
+      prev.map((t) =>
+        t.id === tastingId ? { ...t, isLiked: !t.isLiked } : t
+      )
+    );
+  }, []);
+
+  const handleToggleBookmark = useCallback((tastingId: string) => {
+    setTastings((prev) =>
+      prev.map((t) =>
+        t.id === tastingId ? { ...t, isBookmarked: !t.isBookmarked } : t
+      )
+    );
+  }, []);
+
   const renderTasting = useCallback(
     ({ item }: { item: TastingWithInteractions }) => (
       <Box className="mb-4">
         <TastingCard
           tasting={item}
           currentUserId={user?.id}
-          onLike={() => {}}
-          onBookmark={() => {}}
+          onLike={handleToggleLike}
+          onBookmark={handleToggleBookmark}
         />
       </Box>
     ),
-    [user?.id]
+    [user?.id, handleToggleLike, handleToggleBookmark]
   );
 
   const renderEmpty = () => (

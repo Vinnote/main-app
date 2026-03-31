@@ -25,10 +25,17 @@ export default function TastingFeedScreen() {
     let isMounted = true;
 
     const loadCurrentUser = async () => {
-      const userData = await tokenStorage.getUser();
+      try {
+        const userData = await tokenStorage.getUser();
 
-      if (isMounted) {
-        setCurrentUserId(userData?.id ?? null);
+        if (isMounted) {
+          setCurrentUserId(userData?.id ?? null);
+        }
+      } catch (error) {
+        console.error('Failed to load current user from tokenStorage:', error);
+        if (isMounted) {
+          setCurrentUserId(null);
+        }
       }
     };
 
